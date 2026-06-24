@@ -1,0 +1,129 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 12, 0.88);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+  animation: fadeInUp 0.2s ease;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 24px;
+  max-width: 380px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 0 40px rgba(201, 162, 39, 0.1);
+}
+
+.close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 20px;
+  color: var(--text-muted);
+  line-height: 1;
+  padding: 4px;
+  transition: color 0.15s;
+}
+
+.close:hover { color: var(--text); }
+
+.title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  text-align: center;
+  background: var(--surface2);
+  border-radius: var(--radius);
+  padding: 10px 6px;
+  border: 1px solid rgba(201, 162, 39, 0.08);
+}
+
+.statVal {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--amber);
+  font-family: var(--font-mono);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.distTitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.distRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+}
+
+.distLabel {
+  color: var(--text-muted);
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.distBar {
+  flex: 1;
+  height: 18px;
+  background: var(--surface2);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.distFill {
+  height: 100%;
+  background: var(--amber);
+  border-radius: 3px;
+  min-width: 4px;
+  display: flex;
+  align-items: center;
+  padding-right: 6px;
+  justify-content: flex-end;
+  transition: width 0.4s ease;
+}
+
+.distCount {
+  font-size: 11px;
+  font-weight: 600;
+  color: #000;
+}

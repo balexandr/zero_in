@@ -1,0 +1,92 @@
+.card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-left: 2px solid rgba(201, 162, 39, 0.12);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 14px 16px 14px 44px;
+  animation: fadeInUp 0.35s ease both;
+  overflow: hidden;
+}
+
+/* Hover left-to-right amber sweep */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--amber-dim) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.number {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--amber);
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.text {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+
+/* ── Revealed card ────────────────────────────── */
+.card:not(.locked) {
+  border-left: 2px solid rgba(201, 162, 39, 0.45);
+  background-color: var(--surface);
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.05) 3px,
+    rgba(0, 0, 0, 0.05) 4px
+  );
+}
+
+/* ── Locked / classified card ─────────────────── */
+.locked {
+  border-left: 2px solid rgba(201, 162, 39, 0.06);
+  border-color: rgba(201, 162, 39, 0.06);
+  background-color: rgba(13, 17, 23, 0.5);
+  /* Diagonal faint stripes — classified document feel */
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0px,
+    transparent 10px,
+    rgba(201, 162, 39, 0.025) 10px,
+    rgba(201, 162, 39, 0.025) 11px
+  );
+}
+
+.locked .number {
+  color: var(--text-muted);
+}
+
+.locked .text {
+  color: var(--text-muted);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Just-revealed card ───────────────────────── */
+.new {
+  border-color: var(--amber);
+  border-left: 3px solid var(--amber);
+  box-shadow: 0 0 16px var(--amber-glow), inset 0 0 24px rgba(201, 162, 39, 0.04);
+}

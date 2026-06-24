@@ -1,0 +1,360 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Radar background ─────────────────────────── */
+.radarBg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--amber);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ringPulse 4s ease-in-out infinite;
+}
+
+.ring:nth-child(1) { width: 120vmax; height: 120vmax; animation-delay: 0s; }
+.ring:nth-child(2) { width: 80vmax;  height: 80vmax;  animation-delay: 0.8s; }
+.ring:nth-child(3) { width: 50vmax;  height: 50vmax;  animation-delay: 1.6s; }
+.ring:nth-child(4) { width: 25vmax;  height: 25vmax;  animation-delay: 2.4s; }
+
+.sweep {
+  position: absolute;
+  width: 50vmax;
+  height: 50vmax;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+  animation: radarSweep 8s linear infinite;
+  background: conic-gradient(from 0deg, transparent 85%, rgba(201, 162, 39, 0.06) 100%);
+  pointer-events: none;
+}
+
+/* ── Screen effects ───────────────────────────── */
+.vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.65) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 3px
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* ── Layout ───────────────────────────────────── */
+.header {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+  box-shadow: 0 1px 0 rgba(201, 162, 39, 0.06), 0 4px 40px rgba(0, 0, 0, 0.6);
+  background: rgba(6, 8, 12, 0.97);
+  backdrop-filter: blur(8px);
+}
+
+.headerInner {
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+.subtitle::after {
+  content: '█';
+  color: rgba(201, 162, 39, 0.5);
+  margin-left: 2px;
+  animation: blink 1.1s step-end infinite;
+}
+
+.headerActions {
+  display: flex;
+  gap: 6px;
+}
+
+.iconBtn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 15px;
+  transition: color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.iconBtn:hover {
+  color: var(--amber);
+  background: var(--amber-dim);
+  box-shadow: 0 0 12px rgba(201, 162, 39, 0.15);
+}
+
+.main {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 16px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Puzzle meta ──────────────────────────────── */
+.puzzleInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.puzzleNum {
+  color: var(--amber);
+  font-weight: 600;
+  background: rgba(201, 162, 39, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+.dot {
+  color: rgba(201, 162, 39, 0.3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.dot::before {
+  content: '//';
+}
+
+/* ── Attempt bar indicators ───────────────────── */
+.attempts {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.attempt {
+  width: 22px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  transition: background 0.2s;
+}
+
+.attemptUsed    { background: rgba(201, 162, 39, 0.35); }
+.attemptWrong   { background: rgba(239, 68, 68, 0.5); }
+.attemptCorrect { background: rgba(34, 197, 94, 0.5); }
+
+/* ── Clue cards container ─────────────────────── */
+.clues {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+/* ── Guess history ────────────────────────────── */
+.guessHistory {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.guessRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: var(--font-mono);
+  animation: blipIn 0.2s ease;
+}
+
+.guessWrong {
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-left: 3px solid rgba(239, 68, 68, 0.65);
+  color: #fc8181;
+}
+
+.guessCorrect {
+  background: rgba(34, 197, 94, 0.06);
+  border: 1px solid rgba(34, 197, 94, 0.15);
+  border-left: 3px solid rgba(34, 197, 94, 0.65);
+  color: #6ee7b7;
+}
+
+.guessIcon {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* ── Input area ───────────────────────────────── */
+.inputArea {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: rgba(6, 8, 12, 0.98);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(201, 162, 39, 0.16);
+  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.7), 0 -1px 0 rgba(201, 162, 39, 0.05);
+  padding: 14px 16px;
+}
+
+.inputInner {
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: var(--font-mono);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input::placeholder { color: var(--text-muted); }
+
+.input:focus {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 2px rgba(201, 162, 39, 0.12), 0 0 20px rgba(201, 162, 39, 0.06);
+}
+
+.input.shaking {
+  animation: shake 0.4s ease;
+  border-color: var(--red);
+}
+
+.submitBtn {
+  background: var(--amber);
+  color: #000;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  transition: opacity 0.15s, box-shadow 0.15s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 1;
+  box-shadow: 0 0 22px rgba(201, 162, 39, 0.5), 0 0 8px rgba(201, 162, 39, 0.3);
+  transform: translateY(-1px);
+}
+
+.submitBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── No puzzle state ──────────────────────────── */
+.noPuzzle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 40px;
+}
+
+/* ── Footer ───────────────────────────────────── */
+.footer {
+  margin-top: auto;
+  padding: 20px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.footerLogo {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #ff6b4a;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.footerLogo:hover { opacity: 0.8; }
+
+.footerCopy {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}

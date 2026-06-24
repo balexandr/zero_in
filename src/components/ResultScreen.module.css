@@ -1,0 +1,125 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 12, 0.88);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+  animation: fadeInUp 0.25s ease;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px 24px 28px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(201, 162, 39, 0.15);
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.closeBtn:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.statusWon  { color: var(--amber); }
+.statusLost { color: var(--text-muted); }
+
+.answer {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.score {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.scoreVal {
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.squares {
+  font-size: 22px;
+  letter-spacing: 3px;
+  margin-bottom: 24px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btnShare {
+  background: var(--amber);
+  color: #000;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  padding: 12px;
+  border-radius: var(--radius);
+  width: 100%;
+  transition: opacity 0.15s;
+}
+
+.btnShare:hover { opacity: 0.88; }
+
+.btnStats {
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 13px;
+  padding: 11px;
+  border-radius: var(--radius);
+  width: 100%;
+  border: 1px solid var(--border);
+  transition: border-color 0.15s;
+}
+
+.btnStats:hover { border-color: var(--amber); }
+
+
+.copied {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--green);
+  margin-top: 6px;
+  height: 16px;
+}
