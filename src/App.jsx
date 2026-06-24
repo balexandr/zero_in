@@ -11,7 +11,7 @@ export default function App() {
   const {
     puzzle, puzzleNumber, dateKey,
     guesses, cluesRevealed, gameStatus, initialized, shaking,
-    winClue, score, submitGuess, generateShareText,
+    winClue, score, submitGuess, skipGuess, generateShareText,
     maxGuesses, maxClues,
   } = useGameState();
 
@@ -111,6 +111,7 @@ export default function App() {
                 const guess = guesses[i];
                 let cls = styles.attempt;
                 if (guess?.correct) cls += ` ${styles.attemptCorrect}`;
+                else if (guess?.skipped) cls += ` ${styles.attemptSkipped}`;
                 else if (guess) cls += ` ${styles.attemptWrong}`;
                 else if (i < guesses.length) cls += ` ${styles.attemptUsed}`;
                 return <span key={i} className={cls} />;
@@ -132,42 +133,49 @@ export default function App() {
             {guesses.length > 0 && (
               <div className={styles.guessHistory}>
                 {guesses.map((g, i) => (
-                  <div key={i} className={`${styles.guessRow} ${g.correct ? styles.guessCorrect : styles.guessWrong}`}>
-                    <span className={styles.guessIcon}>{g.correct ? '✓' : '✗'}</span>
-                    <span>{g.text}</span>
+                  <div key={i} className={`${styles.guessRow} ${g.correct ? styles.guessCorrect : g.skipped ? styles.guessSkipped : styles.guessWrong}`}>
+                    <span className={styles.guessIcon}>{g.correct ? '✓' : g.skipped ? '—' : '✗'}</span>
+                    <span>{g.skipped ? 'skipped' : g.text}</span>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {gameStatus === 'playing' && (
+              <div className={styles.inputArea}>
+                <form className={styles.inputInner} onSubmit={handleSubmit}>
+                  <input
+                    ref={inputRef}
+                    className={`${styles.input} ${shaking ? styles.shaking : ''}`}
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    placeholder="identify the target…"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck="false"
+                    maxLength={120}
+                  />
+                  <button
+                    type="submit"
+                    className={styles.submitBtn}
+                    disabled={!input.trim()}
+                  >
+                    zero in
+                  </button>
+                </form>
+                <button
+                  type="button"
+                  className={styles.skipBtn}
+                  onClick={() => { skipGuess(); setInput(''); inputRef.current?.focus(); }}
+                >
+                  skip — reveal next clue
+                </button>
               </div>
             )}
           </>
         )}
         {footer}
       </main>
-
-      {puzzle && gameStatus === 'playing' && (
-        <div className={styles.inputArea}>
-          <form className={styles.inputInner} onSubmit={handleSubmit}>
-            <input
-              ref={inputRef}
-              className={`${styles.input} ${shaking ? styles.shaking : ''}`}
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              placeholder="identify the target…"
-              autoComplete="off"
-              autoCorrect="off"
-              spellCheck="false"
-              maxLength={120}
-            />
-            <button
-              type="submit"
-              className={styles.submitBtn}
-              disabled={!input.trim()}
-            >
-              zero in
-            </button>
-          </form>
-        </div>
-      )}
 
       {showHelp && <HowToPlay onClose={() => setShowHelp(false)} />}
       {showStats && <StatsScreen stats={stats} winPct={winPct} onClose={() => setShowStats(false)} />}

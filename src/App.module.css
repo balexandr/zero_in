@@ -147,7 +147,7 @@
   max-width: 520px;
   width: 100%;
   margin: 0 auto;
-  padding: 20px 16px 100px;
+  padding: 20px 16px 24px;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -204,6 +204,7 @@
 
 .attemptUsed    { background: rgba(201, 162, 39, 0.35); }
 .attemptWrong   { background: rgba(239, 68, 68, 0.5); }
+.attemptSkipped { background: rgba(120, 120, 140, 0.4); }
 .attemptCorrect { background: rgba(34, 197, 94, 0.5); }
 
 /* ── Clue cards container ─────────────────────── */
@@ -240,6 +241,14 @@
   color: #fc8181;
 }
 
+.guessSkipped {
+  background: rgba(120, 120, 140, 0.05);
+  border: 1px solid rgba(120, 120, 140, 0.15);
+  border-left: 3px solid rgba(120, 120, 140, 0.4);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 .guessCorrect {
   background: rgba(34, 197, 94, 0.06);
   border: 1px solid rgba(34, 197, 94, 0.15);
@@ -254,21 +263,13 @@
 
 /* ── Input area ───────────────────────────────── */
 .inputArea {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
-  background: rgba(6, 8, 12, 0.98);
-  backdrop-filter: blur(12px);
+  width: 100%;
+  padding: 16px 0 0;
   border-top: 1px solid rgba(201, 162, 39, 0.16);
-  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.7), 0 -1px 0 rgba(201, 162, 39, 0.05);
-  padding: 14px 16px;
+  margin-top: 8px;
 }
 
 .inputInner {
-  max-width: 520px;
-  margin: 0 auto;
   display: flex;
   gap: 8px;
 }
@@ -319,6 +320,24 @@
 }
 
 .submitBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.skipBtn {
+  display: block;
+  margin: 8px auto 0;
+  background: none;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.skipBtn:hover { color: var(--amber); }
 
 /* ── No puzzle state ──────────────────────────── */
 .noPuzzle {

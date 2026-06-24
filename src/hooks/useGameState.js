@@ -97,6 +97,20 @@ export function useGameState() {
     return { result: 'wrong' };
   }, [puzzle, gameStatus, guesses, cluesRevealed]);
 
+  const skipGuess = useCallback(() => {
+    if (!puzzle || gameStatus !== 'playing') return;
+    if (guesses.length >= MAX_GUESSES) return;
+
+    const newGuesses = [...guesses, { text: null, correct: false, skipped: true }];
+    const nextCluesRevealed = Math.min(cluesRevealed + 1, MAX_CLUES);
+    setCluesRevealed(nextCluesRevealed);
+    setGuesses(newGuesses);
+
+    if (newGuesses.length >= MAX_GUESSES) {
+      setGameStatus('lost');
+    }
+  }, [puzzle, gameStatus, guesses, cluesRevealed]);
+
   const winClue = gameStatus === 'won'
     ? guesses.findIndex(g => g.correct) + 1
     : null;
@@ -110,9 +124,10 @@ export function useGameState() {
     const guessDisplay = won ? `${totalGuesses}/${MAX_GUESSES}` : 'X/5';
     const squares = Array.from({ length: MAX_GUESSES }, (_, i) => {
       if (i >= totalGuesses) return '⬜';
+      if (guesses[i].skipped) return '⬛';
       return guesses[i].correct ? '🟩' : '🟥';
     }).join('');
-    return `Zero In #${puzzleNumber} 🎯 ${guessDisplay}\n${squares}\nnoodlegames.co`;
+    return `Zero In #${puzzleNumber} ${guessDisplay}\n${squares}`;
   }, [puzzle, guesses, gameStatus, puzzleNumber]);
 
   return {
@@ -127,6 +142,7 @@ export function useGameState() {
     winClue,
     score,
     submitGuess,
+    skipGuess,
     generateShareText,
     maxGuesses: MAX_GUESSES,
     maxClues: MAX_CLUES,
