@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useGameState } from './hooks/useGameState';
 import { useStats } from './hooks/useStats';
+import { GameLogo } from './components/GameLogo';
+import { NoodleLogoIcon } from './components/NoodleLogo';
 import { ClueCard } from './components/ClueCard';
 import { HowToPlay } from './components/HowToPlay';
 import { ResultScreen } from './components/ResultScreen';
@@ -28,7 +30,7 @@ export default function App() {
   const footer = (
     <footer className={styles.footer}>
       <a href="https://noodlegames.co" target="_blank" rel="noopener noreferrer" className={styles.footerLogo}>
-        🍜 NoodleGames
+        <NoodleLogoIcon size={18} /> NoodleGames
       </a>
       <span className={styles.footerCopy}>© {currentYear} NoodleGames.co</span>
     </footer>
@@ -75,7 +77,10 @@ export default function App() {
       <header className={styles.header}>
         <div className={styles.headerInner}>
           <div className={styles.headerLeft}>
-            <div className={styles.title}>Zero In</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <GameLogo />
+              <div className={styles.title}>Zero In</div>
+            </div>
             <div className={styles.subtitle}>daily intel briefing</div>
           </div>
           <div className={styles.headerActions}>

@@ -92,14 +92,11 @@
 }
 
 .title {
-  font-family: var(--font-mono);
-  font-size: 18px;
-  font-weight: 700;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
   color: var(--amber);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   line-height: 1;
-  animation: titleGlow 3s ease-in-out infinite;
 }
 
 .subtitle {
@@ -364,6 +361,10 @@
 }
 
 .footerLogo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Fredoka', sans-serif;
   font-weight: 600;
   font-size: 0.9rem;
   color: #ff6b4a;
