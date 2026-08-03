@@ -18,7 +18,7 @@ One clue is shown at a time. Guess, or skip to reveal the next clue — either w
 
 ## Sharing
 
-After the puzzle ends you can share a result grid showing which clue you solved on (or that you missed it), no spoilers.
+After the puzzle ends you can share a result grid showing which clue you solved on (or that you missed it), no spoilers. Once you've finished at least one NoodleGame today, a **Share all completed** button appears in the footer, letting you share every game you've solved today in one message.
 
 ---
 
