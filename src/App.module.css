@@ -394,6 +394,18 @@
   border-color: #ff6b4a;
 }
 
+.footerPrivacy {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.15s;
+}
+
+.footerPrivacy:hover {
+  opacity: 0.8;
+}
+
 .footerCopy {
   font-size: 0.72rem;
   color: var(--text-muted);
