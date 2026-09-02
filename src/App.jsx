@@ -116,7 +116,7 @@ export default function App() {
           <div className={styles.headerLeft}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <GameLogo />
-              <div className={styles.title}>Zero In</div>
+              <h1 className={styles.title}>Zero In</h1>
             </div>
             <div className={styles.subtitle}>daily intel briefing</div>
           </div>
