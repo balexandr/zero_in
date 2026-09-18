@@ -31,6 +31,29 @@ html, body {
   overflow-x: hidden;
 }
 
+/* A faint radar beam sweeps the whole page, echoing the in-game radar
+   crosshair (see App.module.css's own radarSweep) but slower, since this
+   one is ambient chrome rather than a countdown element. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(201, 162, 39, 0.12) 0deg,
+    transparent 25deg,
+    transparent 360deg
+  );
+  animation: bgRadarSweep 18s linear infinite;
+  z-index: 0;
+}
+
+@keyframes bgRadarSweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 #root {
   min-height: 100vh;
   display: flex;
