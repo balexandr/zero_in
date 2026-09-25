@@ -1,4 +1,4 @@
-# Zero In — Daily Trivia Puzzle
+# Zero In: Daily Trivia Puzzle
 
 A daily puzzle game where you identify a person, place, or thing from five progressively-revealed clues. Fewer clues used, higher your score.
 
@@ -8,7 +8,7 @@ Part of the [NoodleGames](https://noodlegames.co) family alongside **Squint** an
 
 ## How to play
 
-One clue is shown at a time. Guess, or skip to reveal the next clue — either way, up to **5 clues** unlock and you get **5 guesses** total.
+One clue is shown at a time. Guess, or skip to reveal the next clue. Either way, up to **5 clues** unlock and you get **5 guesses** total.
 
 - 🟩 Correct guess · 🟥 Wrong guess · ⬛ Skipped · ⬜ Unused
 - Score = `6 − (clue you solved it on)`, so guessing right on clue 1 scores highest.
