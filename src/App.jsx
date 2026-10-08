@@ -9,6 +9,7 @@ import { ResultScreen } from './components/ResultScreen';
 import { StatsScreen } from './components/StatsScreen';
 import styles from './App.module.css';
 import { recordTodayShare, getCompletedTodayCount, buildShareAllText, TOTAL_GAMES } from './utils/shareAll';
+import { IconCheckmark, IconShare, IconXSmall, IconDash } from './components/Icons';
 
 export default function App() {
   const {
@@ -60,7 +61,9 @@ export default function App() {
           className={`${styles.footerShareAll} ${shareAllCopied ? styles.copied : ''}`}
           onClick={handleShareAll}
         >
-          {shareAllCopied ? '✓ Copied' : `⬆ Share all completed (${shareAllCount}/${TOTAL_GAMES})`}
+          {shareAllCopied
+            ? <><IconCheckmark size={13} /> Copied</>
+            : <><IconShare size={13} /> Share all completed ({shareAllCount}/{TOTAL_GAMES})</>}
         </button>
       )}
       <a href="https://noodlegames.co/privacy" target="_blank" rel="noopener noreferrer" className={styles.footerPrivacy}>Privacy Policy</a>
@@ -176,7 +179,7 @@ export default function App() {
               <div className={styles.guessHistory}>
                 {guesses.map((g, i) => (
                   <div key={i} className={`${styles.guessRow} ${g.correct ? styles.guessCorrect : g.skipped ? styles.guessSkipped : styles.guessWrong}`}>
-                    <span className={styles.guessIcon}>{g.correct ? '✓' : g.skipped ? '—' : '✗'}</span>
+                    <span className={styles.guessIcon}>{g.correct ? <IconCheckmark size={13} /> : g.skipped ? <IconDash size={13} /> : <IconXSmall size={13} />}</span>
                     <span>{g.skipped ? 'skipped' : g.text}</span>
                   </div>
                 ))}
@@ -210,7 +213,7 @@ export default function App() {
                   className={styles.skipBtn}
                   onClick={() => { skipGuess(); setInput(''); inputRef.current?.focus(); }}
                 >
-                  skip — reveal next clue
+                  skip, reveal next clue
                 </button>
               </div>
             )}

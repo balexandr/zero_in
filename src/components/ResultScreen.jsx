@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { IconClose, IconCheckmark, IconResultSquare } from './Icons';
 import styles from './ResultScreen.module.css';
 
 export function ResultScreen({ gameStatus, puzzle, guesses, score, winClue, generateShareText, onShowStats, onDismiss }) {
@@ -6,10 +7,10 @@ export function ResultScreen({ gameStatus, puzzle, guesses, score, winClue, gene
 
   const won = gameStatus === 'won';
 
-  const squares = Array.from({ length: 5 }, (_, i) => {
-    if (i >= guesses.length) return '⬜';
-    return guesses[i].correct ? '🟩' : '🟥';
-  }).join('');
+  const squareStates = Array.from({ length: 5 }, (_, i) => {
+    if (i >= guesses.length) return 'unused';
+    return guesses[i].correct ? 'correct' : 'wrong';
+  });
 
   async function handleShare() {
     const text = generateShareText();
@@ -18,7 +19,7 @@ export function ResultScreen({ gameStatus, puzzle, guesses, score, winClue, gene
         await navigator.share({ text });
         return;
       } catch {
-        // cancelled or failed — fall through
+        // cancelled or failed, fall through
       }
     }
     try {
@@ -39,7 +40,7 @@ export function ResultScreen({ gameStatus, puzzle, guesses, score, winClue, gene
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <button className={styles.closeBtn} onClick={onDismiss} aria-label="Close">✕</button>
+        <button className={styles.closeBtn} onClick={onDismiss} aria-label="Close"><IconClose /></button>
         <div className={`${styles.status} ${won ? styles.statusWon : styles.statusLost}`}>
           {won ? '// target acquired' : '// target lost'}
         </div>
@@ -53,7 +54,9 @@ export function ResultScreen({ gameStatus, puzzle, guesses, score, winClue, gene
         {!won && (
           <div className={styles.score}>better luck tomorrow</div>
         )}
-        <div className={styles.squares}>{squares}</div>
+        <div className={styles.squares}>
+          {squareStates.map((state, i) => <IconResultSquare key={i} state={state} />)}
+        </div>
         <div className={styles.actions}>
           <button className={styles.btnShare} onClick={handleShare}>
             share result
@@ -62,7 +65,7 @@ export function ResultScreen({ gameStatus, puzzle, guesses, score, winClue, gene
             view stats
           </button>
         </div>
-        {copied && <div className={styles.copied}>copied to clipboard</div>}
+        {copied && <div className={styles.copied}><IconCheckmark size={13} /> copied to clipboard</div>}
       </div>
     </div>
   );

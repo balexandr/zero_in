@@ -26,9 +26,10 @@
   position: absolute;
   top: 14px;
   right: 16px;
-  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text-muted);
-  line-height: 1;
   padding: 4px;
   transition: color 0.15s;
 }
