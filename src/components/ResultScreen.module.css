@@ -116,6 +116,22 @@
 
 .btnStats:hover { border-color: var(--amber); }
 
+.btnLeaderboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 4px;
+  transition: color 0.15s;
+}
+
+.btnLeaderboard:hover { color: var(--amber); }
 
 .copied {
   display: flex;

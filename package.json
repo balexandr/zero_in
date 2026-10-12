@@ -11,6 +11,7 @@
     "generate": "node scripts/generate_puzzles.js"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

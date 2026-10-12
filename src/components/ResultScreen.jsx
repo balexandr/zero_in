@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { IconClose, IconCheckmark, IconResultSquare } from './Icons';
+import { IconClose, IconCheckmark, IconResultSquare, IconLeaderboard } from './Icons';
 import styles from './ResultScreen.module.css';
 
-export function ResultScreen({ gameStatus, puzzle, guesses, score, winClue, generateShareText, onShowStats, onDismiss }) {
+export function ResultScreen({ gameStatus, puzzle, guesses, score, winClue, generateShareText, onShowStats, onDismiss, onViewLeaderboard }) {
   const [copied, setCopied] = useState(false);
 
   const won = gameStatus === 'won';
@@ -65,6 +65,11 @@ export function ResultScreen({ gameStatus, puzzle, guesses, score, winClue, gene
             view stats
           </button>
         </div>
+        {won && (
+          <button className={styles.btnLeaderboard} onClick={onViewLeaderboard}>
+            <IconLeaderboard size={14} /> today's leaderboard
+          </button>
+        )}
         {copied && <div className={styles.copied}><IconCheckmark size={13} /> copied to clipboard</div>}
       </div>
     </div>

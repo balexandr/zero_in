@@ -7,9 +7,11 @@ import { ClueCard } from './components/ClueCard';
 import { HowToPlay } from './components/HowToPlay';
 import { ResultScreen } from './components/ResultScreen';
 import { StatsScreen } from './components/StatsScreen';
+import { LeaderboardPanel } from './components/LeaderboardPanel';
 import styles from './App.module.css';
 import { recordTodayShare, getCompletedTodayCount, buildShareAllText, TOTAL_GAMES } from './utils/shareAll';
-import { IconCheckmark, IconShare, IconXSmall, IconDash } from './components/Icons';
+import { toLeaderboardScore } from './utils/leaderboardScore';
+import { IconCheckmark, IconShare, IconXSmall, IconDash, IconLeaderboard } from './components/Icons';
 
 export default function App() {
   const {
@@ -25,6 +27,7 @@ export default function App() {
   const [showHelp, setShowHelp] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [prevCluesRevealed, setPrevCluesRevealed] = useState(1);
   const [shareAllCount, setShareAllCount] = useState(0);
   const [shareAllCopied, setShareAllCopied] = useState(false);
@@ -124,6 +127,9 @@ export default function App() {
             <div className={styles.subtitle}>daily intel briefing</div>
           </div>
           <div className={styles.headerActions}>
+            <button className={styles.iconBtn} onClick={() => setShowLeaderboard(true)} aria-label="Leaderboard">
+              <IconLeaderboard size={15} />
+            </button>
             <button className={styles.iconBtn} onClick={() => setShowStats(true)} aria-label="Stats">
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                 <rect x="1" y="8" width="3" height="6" fill="currentColor" rx="1"/>
@@ -234,6 +240,14 @@ export default function App() {
           generateShareText={generateShareText}
           onShowStats={() => { setShowResult(false); setShowStats(true); }}
           onDismiss={() => setShowResult(false)}
+          onViewLeaderboard={() => setShowLeaderboard(true)}
+        />
+      )}
+      {showLeaderboard && (
+        <LeaderboardPanel
+          dateKey={dateKey}
+          pendingScore={gameStatus === 'won' ? toLeaderboardScore(winClue) : null}
+          onClose={() => setShowLeaderboard(false)}
         />
       )}
     </div>
