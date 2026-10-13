@@ -11,6 +11,7 @@ import { LeaderboardPanel } from './components/LeaderboardPanel';
 import styles from './App.module.css';
 import { recordTodayShare, getCompletedTodayCount, buildShareAllText, TOTAL_GAMES } from './utils/shareAll';
 import { toLeaderboardScore } from './utils/leaderboardScore';
+import { fetchTodayBoard, findMyRow, wouldQualify } from './utils/leaderboard';
 import { IconCheckmark, IconShare, IconXSmall, IconDash, IconLeaderboard } from './components/Icons';
 
 export default function App() {
@@ -87,6 +88,25 @@ export default function App() {
       recordGame(dateKey, gameStatus === 'won', winClue || maxClues);
       recordTodayShare('zeroin', dateKey, generateShareText());
     }
+  }, [gameStatus]);
+
+  // Auto-opens the leaderboard (initials prompt included) a beat after
+  // a qualifying win, instead of making the player click "today's
+  // leaderboard" to find out they made the cut.
+  useEffect(() => {
+    if (gameStatus !== 'won') return;
+    const t = setTimeout(() => {
+      const pending = toLeaderboardScore(winClue);
+      fetchTodayBoard('zero-in', dateKey).then((board) => {
+        if (!board.config) return;
+        if (findMyRow('zero-in', board.rows)) return;
+        if (wouldQualify(pending.score, board.rows, board.config)) {
+          setShowLeaderboard(true);
+        }
+      });
+    }, 2000);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameStatus]);
 
   useEffect(() => {
