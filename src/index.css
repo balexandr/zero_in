@@ -4,6 +4,9 @@
   --amber: #c9a227;
   --amber-dim: rgba(201, 162, 39, 0.15);
   --amber-glow: rgba(201, 162, 39, 0.18);
+  --accent: var(--amber);
+  --accent-hover: #e0b82f;
+  --accent-subtle: var(--amber-dim);
   --bg: #06080c;
   --surface: #0d1117;
   --surface2: #161b22;
