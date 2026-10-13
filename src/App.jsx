@@ -18,7 +18,7 @@ export default function App() {
   const {
     puzzle, puzzleNumber, dateKey,
     guesses, cluesRevealed, gameStatus, initialized, shaking,
-    winClue, score, submitGuess, skipGuess, generateShareText,
+    winClue, score, elapsedSecondsAtWin, submitGuess, skipGuess, generateShareText,
     maxGuesses, maxClues,
   } = useGameState();
 
@@ -90,7 +90,7 @@ export default function App() {
   useEffect(() => {
     if (gameStatus !== 'won') return;
     const t = setTimeout(() => {
-      const pending = toLeaderboardScore(winClue);
+      const pending = toLeaderboardScore(winClue, elapsedSecondsAtWin);
       fetchTodayBoard('zero-in', dateKey).then((board) => {
         if (!board.config) return;
         if (findMyRow('zero-in', board.rows)) return;
@@ -257,7 +257,7 @@ export default function App() {
       {showLeaderboard && (
         <LeaderboardPanel
           dateKey={dateKey}
-          pendingScore={gameStatus === 'won' ? toLeaderboardScore(winClue) : null}
+          pendingScore={gameStatus === 'won' ? toLeaderboardScore(winClue, elapsedSecondsAtWin) : null}
           onClose={() => setShowLeaderboard(false)}
         />
       )}

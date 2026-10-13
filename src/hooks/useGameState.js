@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import puzzles from '../data/puzzles.json';
 
 const STORAGE_KEY = 'zeroin-game-state';
@@ -52,6 +52,11 @@ export function useGameState() {
   const [gameStatus, setGameStatus] = useState('playing');
   const [initialized, setInitialized] = useState(false);
   const [shaking, setShaking] = useState(false);
+  // Leaderboard tiebreak: solve time, read back only at the instant of a
+  // winning guess. Restarts on a reload mid-puzzle, persisted once a win
+  // happens so a later reload keeps the real time.
+  const startTimeRef = useRef(null);
+  const [elapsedSecondsAtWin, setElapsedSecondsAtWin] = useState(null);
 
   useEffect(() => {
     if (!puzzle) { setInitialized(true); return; }
@@ -60,14 +65,18 @@ export function useGameState() {
       setGuesses(saved.guesses || []);
       setCluesRevealed(saved.cluesRevealed ?? 1);
       setGameStatus(saved.gameStatus || 'playing');
+      setElapsedSecondsAtWin(saved.elapsedSecondsAtWin ?? null);
+      if ((saved.gameStatus || 'playing') === 'playing') startTimeRef.current = performance.now();
+    } else {
+      startTimeRef.current = performance.now();
     }
     setInitialized(true);
   }, [dateKey]);
 
   useEffect(() => {
     if (!initialized || !puzzle) return;
-    saveState({ dateKey, guesses, cluesRevealed, gameStatus });
-  }, [guesses, cluesRevealed, gameStatus, initialized]);
+    saveState({ dateKey, guesses, cluesRevealed, gameStatus, elapsedSecondsAtWin });
+  }, [guesses, cluesRevealed, gameStatus, elapsedSecondsAtWin, initialized]);
 
   const submitGuess = useCallback((text) => {
     if (!puzzle || gameStatus !== 'playing') return { result: 'invalid' };
@@ -80,6 +89,9 @@ export function useGameState() {
     if (correct) {
       setGuesses(newGuesses);
       setGameStatus('won');
+      setElapsedSecondsAtWin(
+        startTimeRef.current ? Math.round((performance.now() - startTimeRef.current) / 1000) : null
+      );
       return { result: 'correct' };
     }
 
@@ -141,6 +153,7 @@ export function useGameState() {
     shaking,
     winClue,
     score,
+    elapsedSecondsAtWin,
     submitGuess,
     skipGuess,
     generateShareText,
